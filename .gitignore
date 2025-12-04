@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+out/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment variables (Security best practice)
+.env

@@ -1,0 +1,20 @@
+{
+  "name": "retailmaster",
+  "version": "1.0.0",
+  "description": "RetailMaster Business Dashboard",
+  "main": "index.js",
+    "scripts": {
+    "start:frontend": "cd retailmaster/frontend && npm start",
+    "start:backend": "cd retailmaster/backend && php -S localhost:8000",
+    "install:frontend": "cd retailmaster/frontend && npm install"
+  },
+  "keywords": [],
+  "author": "Kevin Kiarie",
+  "license": "ISC"
+  ,
+  "dependencies": {
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0",
+  "react-scripts": "5.0.1"
+}
+}
