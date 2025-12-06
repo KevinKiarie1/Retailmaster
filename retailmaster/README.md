@@ -2,8 +2,6 @@
 
 A full-stack business dashboard application built with PHP, React.js, and MySQL.
 
-![Dashboard Screenshot](dashboard-preview.png)
-
 ## Features
 
 - **Dashboard Overview**: Real-time statistics with revenue trends
@@ -63,7 +61,7 @@ retailmaster/
 
 ### Database Setup
 
-1. Create the database and tables:
+1. database and tables:
 
 ```bash
 mysql -u root -p < database/schema.sql
@@ -72,10 +70,10 @@ mysql -u root -p < database/schema.sql
 2. Update database credentials in `backend/config/database.php`:
 
 ```php
-private $host = "localhost";
-private $db_name = "retailmaster";
-private $username = "your_username";
-private $password = "your_password";
+private $host = ''
+private $db_name = ''
+private $username = ''
+private $password = ''
 ```
 
 ### Backend Setup
@@ -145,10 +143,32 @@ The app will open at `http://localhost:3000`
 
 ## Environment Variables
 
-Create a `.env` file in the frontend directory:
+### Backend (.env)
 
+Create a `.env` file in the `backend/` directory (copy from `.env.example`):
+
+```env
+# Database Configuration
+DB_HOST=localhost
+DB_NAME=retailmaster
+DB_USER=your_username
+DB_PASS=your_password
+
+# Allowed Origins (comma-separated)
+ALLOWED_ORIGINS=https://yourdomain.com
+
+# Environment
+APP_ENV=production
+DEBUG_MODE=false
 ```
-REACT_APP_API_URL=http://localhost:8000/api
+
+### Frontend (.env)
+
+Create a `.env` file in the `frontend/` directory:
+
+```env
+REACT_APP_API_URL=https://api.yourdomain.com/api
+REACT_APP_ENV=production
 ```
 
 ## Building for Production
@@ -165,9 +185,25 @@ The build files will be in `frontend/build/` directory.
 ### Backend Deployment
 
 1. Upload the `backend/` folder to your server
-2. Configure your web server (Apache/Nginx) to point to the backend directory
-3. Ensure PHP and MySQL are properly configured
-4. Update database credentials
+2. Create `.env` file with production credentials (never commit this file!)
+3. Configure your web server (Apache/Nginx) to point to the backend directory
+4. Ensure PHP and MySQL are properly configured
+5. Set proper file permissions:
+   ```bash
+   chmod 755 backend/
+   chmod 644 backend/.env
+   chmod 755 backend/logs/
+   ```
+
+### Security Checklist
+
+- [ ] Set `APP_ENV=production` in backend `.env`
+- [ ] Set `DEBUG_MODE=false` in backend `.env`
+- [ ] Use strong database password
+- [ ] Configure HTTPS/SSL
+- [ ] Update `ALLOWED_ORIGINS` to your domain only
+- [ ] Remove any test/sample data
+- [ ] Set up regular database backups
 
 ## License
 

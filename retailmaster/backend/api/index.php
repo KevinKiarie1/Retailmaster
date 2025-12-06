@@ -3,7 +3,26 @@
  * API Router
  * RetailMaster Business Dashboard
  * Main entry point for all API requests
+ * 
+ * Production-ready with proper error handling
  */
+
+// Load environment configuration first
+require_once __DIR__ . '/../config/env.php';
+Env::load();
+
+// Set error handling based on environment
+if (Env::isProduction()) {
+    error_reporting(0);
+    ini_set('display_errors', 0);
+} else {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+}
+
+// Set up error logging
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../logs/error.log');
 
 require_once __DIR__ . '/../config/cors.php';
 require_once __DIR__ . '/../config/database.php';
@@ -11,6 +30,31 @@ require_once __DIR__ . '/../controllers/DashboardController.php';
 require_once __DIR__ . '/../controllers/InventoryController.php';
 require_once __DIR__ . '/../controllers/CreditController.php';
 require_once __DIR__ . '/../controllers/MpesaController.php';
+
+/**
+ * Send JSON response
+ */
+function sendResponse($data, $statusCode = 200) {
+    http_response_code($statusCode);
+    echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+/**
+ * Send error response
+ */
+function sendError($message, $statusCode = 400, $details = null) {
+    $response = [
+        'success' => false,
+        'error' => $message
+    ];
+    
+    if ($details && Env::isDebug()) {
+        $response['details'] = $details;
+    }
+    
+    sendResponse($response, $statusCode);
+}
 
 // Parse the request URI
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -146,10 +190,12 @@ try {
             ]);
             break;
     }
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    $message = Env::isDebug() ? $e->getMessage() : 'Database error occurred';
+    sendError($message, 500);
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode([
-        'success' => false,
-        'error' => 'Server error: ' . $e->getMessage()
-    ]);
+    error_log("Server error: " . $e->getMessage());
+    $message = Env::isDebug() ? $e->getMessage() : 'An unexpected error occurred';
+    sendError($message, 500);
 }

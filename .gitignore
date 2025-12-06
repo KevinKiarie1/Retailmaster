@@ -13,3 +13,30 @@ Thumbs.db
 
 # Environment variables (Security best practice)
 .env
+.env.local
+.env.production
+.env.*.local
+
+# Log files
+*.log
+logs/
+!logs/.gitkeep
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
