@@ -1,4 +1,3 @@
--- RetailMaster Database Schema
 -- SQL Database for the Business Dashboard
 
 -- Create database

@@ -1,9 +1,7 @@
 <?php
 /**
- * CORS Configuration
  * RetailMaster Business Dashboard
  * 
- * Production-ready with environment variable support
  */
 
 require_once __DIR__ . '/env.php';
@@ -19,7 +17,7 @@ $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 if (in_array($origin, $allowedOrigins)) {
     header("Access-Control-Allow-Origin: $origin");
 } elseif (Env::isDebug() && empty($origin)) {
-    // Allow requests without origin in debug mode (e.g., Postman, curl)
+    // Allow requests without origin in debug mode (e.g. curl)
     header("Access-Control-Allow-Origin: *");
 }
 

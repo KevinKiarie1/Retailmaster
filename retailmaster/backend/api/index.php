@@ -4,14 +4,13 @@
  * RetailMaster Business Dashboard
  * Main entry point for all API requests
  * 
- * Production-ready with proper error handling
  */
 
 // Load environment configuration first
 require_once __DIR__ . '/../config/env.php';
 Env::load();
 
-// Set error handling based on environment
+// error handling based on environment
 if (Env::isProduction()) {
     error_reporting(0);
     ini_set('display_errors', 0);
@@ -20,7 +19,7 @@ if (Env::isProduction()) {
     ini_set('display_errors', 1);
 }
 
-// Set up error logging
+// error logging
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/../logs/error.log');
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 const isProduction = process.env.REACT_APP_ENV === 'production';
 
-// Create axios instance with default configuration
+// axios instance with default configuration
 const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000, // 30 second timeout
@@ -13,7 +13,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor - add auth token, logging, etc.
+// Request interceptor via add auth token, logging.
 api.interceptors.request.use(
   (config) => {
     // Add auth token if available
@@ -34,7 +34,7 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor - handle errors globally
+// Response interceptor - global error handling
 api.interceptors.response.use(
   (response) => {
     return response;
