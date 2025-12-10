@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # ===========================================
+  # Frontend - React App
+  # ===========================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
+    networks:
+      - retailmaster-network
+
+  # ===========================================
+  # Backend - PHP API
+  # ===========================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - database
+    environment:
+      - APP_ENV=production
+      - DEBUG_MODE=false
+      - DB_HOST=database
+      - DB_NAME=retailmaster
+      - DB_USER=retailmaster_user
+      - DB_PASS=SecurePassword123!
+      - ALLOWED_ORIGINS=http://localhost:3000
+    volumes:
+      - ./backend/logs:/var/www/html/logs
+    networks:
+      - retailmaster-network
+
+  # ===========================================
+  # Database - MySQL
+  # ===========================================
+  database:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=retailmaster
+      - MYSQL_USER=retailmaster_user
+      - MYSQL_PASSWORD=SecurePassword123!
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/sample_data.sql:/docker-entrypoint-initdb.d/02-sample_data.sql
+    networks:
+      - retailmaster-network
+
+  # ===========================================
+  # phpMyAdmin (Optional - for DB management)
+  # ===========================================
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=database
+      - PMA_USER=retailmaster_user
+      - PMA_PASSWORD=SecurePassword123!
+    depends_on:
+      - database
+    networks:
+      - retailmaster-network
+
+# ===========================================
+# Networks & Volumes
+# ===========================================
+networks:
+  retailmaster-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
