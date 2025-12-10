@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: retailmaster-app
+    env: docker
+    plan: free
+    region: oregon
+    branch: main
+    dockerContext: .
+    # No buildCommand or startCommand needed for Docker
