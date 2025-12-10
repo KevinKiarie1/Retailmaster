@@ -1,9 +1,7 @@
 version: '3.8'
 
 services:
-  # ===========================================
-  # Frontend - React App
-  # ===========================================
+
   frontend:
     build:
       context: ./frontend
@@ -17,9 +15,6 @@ services:
     networks:
       - retailmaster-network
 
-  # ===========================================
-  # Backend - PHP API
-  # ===========================================
   backend:
     build:
       context: ./backend
@@ -41,9 +36,6 @@ services:
     networks:
       - retailmaster-network
 
-  # ===========================================
-  # Database - MySQL
-  # ===========================================
   database:
     image: mysql:8.0
     ports:
@@ -60,9 +52,6 @@ services:
     networks:
       - retailmaster-network
 
-  # ===========================================
-  # phpMyAdmin (Optional - for DB management)
-  # ===========================================
   phpmyadmin:
     image: phpmyadmin:latest
     ports:
@@ -76,9 +65,6 @@ services:
     networks:
       - retailmaster-network
 
-# ===========================================
-# Networks & Volumes
-# ===========================================
 networks:
   retailmaster-network:
     driver: bridge
