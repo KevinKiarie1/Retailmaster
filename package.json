@@ -4,6 +4,7 @@
   "description": "RetailMaster Business Dashboard",
   "main": "index.js",
     "scripts": {
+    "build": "vite build",
     "start:frontend": "cd retailmaster/frontend && npm start",
     "start:backend": "cd retailmaster/backend && php -S localhost:8000",
     "install:frontend": "cd retailmaster/frontend && npm install"
