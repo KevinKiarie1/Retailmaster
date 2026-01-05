@@ -1,0 +1,37 @@
+.revenueChartContainer {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.chartTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.chartWrapper {
+  width: 100%;
+}
+
+.customTooltip {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.tooltipLabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.tooltipValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-green);
+}

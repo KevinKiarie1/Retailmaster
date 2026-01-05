@@ -1,0 +1,86 @@
+.keyStatsContainer {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  height: 100%;
+}
+
+.keyStatsTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.keyStatsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.keyStatItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.keyStatItem:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.keyStatIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.keyStatIcon.cyan {
+  background-color: rgba(6, 182, 212, 0.1);
+  color: var(--accent-cyan);
+}
+
+.keyStatIcon.red {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--accent-red);
+}
+
+.keyStatIcon.white {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.keyStatInfo {
+  flex: 1;
+}
+
+.keyStatLabel {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.keyStatValue {
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.keyStatValue.cyan {
+  color: var(--accent-cyan);
+}
+
+.keyStatValue.red {
+  color: var(--accent-red);
+}
+
+.keyStatValue.white {
+  color: var(--text-primary);
+}

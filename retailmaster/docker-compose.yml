@@ -2,18 +2,37 @@ version: '3.8'
 
 services:
 
-  frontend:
+  # Next.js TypeScript Frontend (new)
+  frontend-next:
     build:
-      context: ./frontend
+      context: ./frontend-next
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8000/api
     ports:
-      - "3000:80"
+      - "3000:3000"
     depends_on:
       - backend
     environment:
-      - REACT_APP_API_URL=http://localhost:8000/api
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+      - NEXT_PUBLIC_ENV=production
     networks:
       - retailmaster-network
+    restart: unless-stopped
+
+  # Legacy React Frontend (can be removed once Next.js frontend is fully tested)
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3001:80"
+  #   depends_on:
+  #     - backend
+  #   environment:
+  #     - REACT_APP_API_URL=http://localhost:8000/api
+  #   networks:
+  #     - retailmaster-network
 
   # TypeScript Backend (Node.js/Express)
   backend:
