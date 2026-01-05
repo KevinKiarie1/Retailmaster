@@ -15,26 +15,53 @@ services:
     networks:
       - retailmaster-network
 
+  # TypeScript Backend (Node.js/Express)
   backend:
     build:
-      context: ./backend
+      context: ./backend-ts
       dockerfile: Dockerfile
     ports:
-      - "8000:80"
+      - "8000:8000"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     environment:
-      - APP_ENV=production
-      - DEBUG_MODE=false
+      - NODE_ENV=production
+      - PORT=8000
+      - DEBUG=false
       - DB_HOST=database
       - DB_NAME=retailmaster
       - DB_USER=retailmaster_user
       - DB_PASS=SecurePassword123!
-      - ALLOWED_ORIGINS=http://localhost:3000
+      - DB_PORT=3306
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
     volumes:
-      - ./backend/logs:/var/www/html/logs
+      - ./backend-ts/logs:/app/logs
     networks:
       - retailmaster-network
+    restart: unless-stopped
+
+  # Legacy PHP Backend (can be removed once TypeScript backend is fully tested)
+  # backend-php:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8001:80"
+  #   depends_on:
+  #     - database
+  #   environment:
+  #     - APP_ENV=production
+  #     - DEBUG_MODE=false
+  #     - DB_HOST=database
+  #     - DB_NAME=retailmaster
+  #     - DB_USER=retailmaster_user
+  #     - DB_PASS=SecurePassword123!
+  #     - ALLOWED_ORIGINS=http://localhost:3000
+  #   volumes:
+  #     - ./backend/logs:/var/www/html/logs
+  #   networks:
+  #     - retailmaster-network
 
   database:
     image: mysql:8.0
@@ -49,9 +76,17 @@ services:
       - mysql_data:/var/lib/mysql
       - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./database/sample_data.sql:/docker-entrypoint-initdb.d/02-sample_data.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     networks:
       - retailmaster-network
+    restart: unless-stopped
 
+  # Database admin panel (optional - can be removed in production)
   phpmyadmin:
     image: phpmyadmin:latest
     ports:
